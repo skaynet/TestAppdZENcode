@@ -1,0 +1,6 @@
+@TestAppdZENcode.Server_HostAddress = http://localhost:5233
+
+GET {{TestAppdZENcode.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppdZENcode.Server", "TestAppdZENcode.Server\TestAppdZENcode.Server.csproj", "{72534751-0346-44EB-AACD-0E7F55143C08}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "testappdzencode.client", "testappdzencode.client\testappdzencode.client.esproj", "{010094CD-5B80-4258-9AB8-314EF6381080}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72534751-0346-44EB-AACD-0E7F55143C08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72534751-0346-44EB-AACD-0E7F55143C08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72534751-0346-44EB-AACD-0E7F55143C08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72534751-0346-44EB-AACD-0E7F55143C08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{010094CD-5B80-4258-9AB8-314EF6381080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{010094CD-5B80-4258-9AB8-314EF6381080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{010094CD-5B80-4258-9AB8-314EF6381080}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{010094CD-5B80-4258-9AB8-314EF6381080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{010094CD-5B80-4258-9AB8-314EF6381080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{010094CD-5B80-4258-9AB8-314EF6381080}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D8CFDBF-634B-4317-B197-32B9EFECDF87}
+	EndGlobalSection
+EndGlobal
