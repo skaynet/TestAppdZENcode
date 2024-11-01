@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+form input.ng-touched.ng-invalid{
+    border-color: red;
+}
+
+.html-tags-panel {
+    margin-bottom: 10px;
+  }
+  
+  .html-tags-panel button {
+    margin-right: 5px;
+  }
+
+  /* comment.component.css */
+.comment {
+  background-color: #f8f9fa;
+}
+.replies {
+  padding-left: 1.5rem;
+  border-left: 2px solid #dee2e6;
+}

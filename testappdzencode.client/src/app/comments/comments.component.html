@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="dropdown-center mb-3">
+    <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Сортировка
+    </button>
+    <ul class="dropdown-menu">
+      <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'userName' }" (click)="setSortOption('userName')">Имя пользователя</button></li>
+      <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'email' }" (click)="setSortOption('email')">E-Mail</button></li>
+      <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'created_at' && service.sortOrder === 'DESC' }" (click)="setSortOption('created_at', 'DESC')">Сначала новые</button></li>
+      <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'created_at'  && service.sortOrder === 'ASC' }" (click)="setSortOption('created_at')">Сначала старые</button></li>
+    </ul>
+  </div>
+
+  <div *ngFor="let comment of service.commentsList" class="comment-thread">
+    <app-comment [comment]="comment" (replyEvent)="onReplyToComment($event)"></app-comment>
+  </div>
+
+  <app-comment-form></app-comment-form>
+  <button type="button" class="btn btn-primary" (click)="openModalFromComments()">Добавить комментарий</button>
+  
+<nav aria-label="Comment pagination">
+  <ul class="pagination justify-content-center">
+    <!-- Кнопка "Назад" -->
+    <li class="page-item" [ngClass]="{ 'disabled': service.currentPage === 1 }">
+      <button class="page-link" (click)="goToPreviousPage()" [disabled]="service.currentPage === 1">&laquo;</button>
+    </li>
+
+    <!-- Номера страниц -->
+    <li class="page-item" *ngFor="let page of pageNumbers" [ngClass]="{ 'active': page === service.currentPage }">
+      <button class="page-link" (click)="goToPage(page)" [disabled]="service.currentPage === page">{{ page }}</button>
+    </li>
+
+    <!-- Кнопка "Вперед" -->
+    <li class="page-item" [ngClass]="{ 'disabled': service.currentPage === service.totalPages }">
+      <button class="page-link" (click)="goToNextPage()" [disabled]="service.currentPage === service.totalPages">&raquo;</button>
+    </li>
+  </ul>
+</nav>

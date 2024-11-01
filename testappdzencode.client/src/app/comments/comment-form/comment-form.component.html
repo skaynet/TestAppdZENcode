@@ -1,0 +1,127 @@
+<div #commentModal class="modal fade" id="addCommentModal" aria-hidden="true" aria-labelledby="addCommentModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addCommentModalLabel">Добавление комментария</h1>
+        <button type="button" class="btn-close" (click)="resetForm()" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="commentForm" #commentFormElement="ngForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="userName" class="form-label">Имя пользователя*</label>
+            <input 
+              type="text" 
+              id="userName" 
+              formControlName="userName" 
+              class="form-control" 
+              placeholder="Цифры и буквы латинского алфавита"/>
+            <div *ngIf="commentForm.get('userName')?.invalid && commentForm.get('userName')?.touched" class="text-danger">
+              Имя пользователя обязательное поле (цифры и буквы латинского алфавита).
+            </div>
+          </div>
+      
+          <div class="mb-3">
+            <label for="email" class="form-label">E-mail*</label>
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email" 
+              class="form-control" />
+            <div *ngIf="commentForm.get('email')?.invalid && commentForm.get('email')?.touched" class="text-danger">
+              Email обязательное поле. Введите корректный Email.
+            </div>
+          </div>
+      
+          <div class="mb-3">
+            <label for="homePage" class="form-label">Домашняя страница</label>
+            <input 
+              type="url" 
+              id="homePage" 
+              formControlName="homePage" 
+              class="form-control" />
+              <div *ngIf="commentForm.get('homePage')?.invalid && commentForm.get('homePage')?.touched" class="text-danger">
+                Не корректный адрес страницы.
+              </div>
+          </div>
+      
+          <div class="mb-3">
+            <label for="content" class="form-label">Ваш комментарий*</label>
+            <div class="html-tags-panel">
+              <button type="button" class="btn btn-info" (click)="insertTag('<i>', '</i>')">[i]</button>
+              <button type="button" class="btn btn-info" (click)="insertTag('<strong>', '</strong>')">[strong]</button>
+              <button type="button" class="btn btn-info" (click)="insertTag('<code>', '</code>')"><i class="bi bi-code-square"></i></button>
+              <button type="button" class="btn btn-info" (click)="insertTag('<a href=\'\' title=\'\'>', '</a>')">[a]</button>
+            </div>
+            <textarea 
+              id="content" 
+              formControlName="content" 
+              #commentTextArea 
+              class="form-control" 
+              rows="3"></textarea>
+            <div *ngIf="commentForm.get('content')?.invalid && commentForm.get('content')?.touched" class="text-danger">
+              Напишите ваш комментарий.
+            </div>
+          </div>
+      
+          <div class="mb-3">
+            <label for="captcha" class="form-label">*</label>
+            <canvas #captchaCanvas></canvas>
+            <button type="button" class="btn btn-info ms-3" style="margin-top: -40px;" (click)="generateCaptcha()">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+            <input 
+              type="text" 
+              id="captcha" 
+              formControlName="captcha" 
+              placeholder="Введите CAPTCHA" 
+              class="form-control" />
+            <div *ngIf="commentForm.get('captcha')?.invalid && commentForm.get('captcha')?.touched" class="text-danger">
+              Введите CAPTCHA.
+            </div>
+          </div>
+      
+          <div class="mb-3">
+            <label for="filePath" class="form-label">Добавить файл(только изображения и текстовые файлы не более 100 КБ)</label>
+            <input 
+              type="file" 
+              #fileInput 
+              id="filePath" 
+              accept=".jpg,.jpeg,.png,.gif,.txt" 
+              (change)="onFileChange($event)" 
+              class="form-control" />
+              <div *ngIf="fileError" class="text-danger">
+                Недопустимый тип файла или текстовый файл превышает размер 100KB.
+              </div>
+          </div>
+          <!--<button type="submit" class="btn btn-primary" [disabled]="commentForm.invalid">Отправить</button>-->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="resetForm()" data-bs-dismiss="modal">Отмена</button>
+        <button class="btn btn-primary" (click)="nextPreviewComment()" [disabled]="commentForm.invalid">Далее</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" #confirmAddCommentModal id="confirmAddCommentModal" aria-hidden="true" aria-labelledby="confirmAddCommentModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="confirmAddCommentModalLabel">Предварительный просмотр комментария</h1>
+        <button type="button" class="btn-close" (click)="resetForm()" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-comment #previewCommentItem [comment]="previewComment" [isPreview]="true"></app-comment>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="resetForm()" data-bs-dismiss="modal">Отмена</button>
+        <button class="btn btn-primary" data-bs-target="#addCommentModal" data-bs-toggle="modal">Назад</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="commentForm.invalid"
+          (click)="commentFormElement.ngSubmit.emit()">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>

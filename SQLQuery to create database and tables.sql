@@ -1,0 +1,16 @@
+CREATE DATABASE TestAppdZENcodeDB;
+GO
+
+USE TestAppdZENcodeDB;
+
+CREATE TABLE comments (
+    id INT CONSTRAINT PK_COMMENTS_ID PRIMARY KEY IDENTITY,
+    parent_id INT NULL,
+    user_name NVARCHAR(255) NOT NULL,
+    email NVARCHAR(255) NOT NULL,
+	home_page NVARCHAR(255) NULL,
+    content NVARCHAR(MAX) NOT NULL,
+    file_path NVARCHAR(500) NULL,
+    created_at DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_PARENT_ID FOREIGN KEY (parent_id) REFERENCES comments(id)
+);
