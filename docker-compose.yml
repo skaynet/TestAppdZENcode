@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  webapi:
+    build:
+      context: ./TestAppdZENcode.Server
+      dockerfile: Dockerfile
+    ports:
+      - "7005:7005"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=TestAppdZENcodeDB;User=sa;Password=YourStrongPassword123!;TrustServerCertificate=True;
+
+  angular:
+    build:
+      context: ./testappdzencode.client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrongPassword123!
+    ports:
+      - "1433:1433"

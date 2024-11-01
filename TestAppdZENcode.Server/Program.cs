@@ -21,14 +21,14 @@ builder.Services.AddScoped<CommentsRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*builder.Services.AddCors(options =>
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularClient",
+    options.AddPolicy("AllowAll",
         builder => builder
-            .WithOrigins("http://localhost:4200")  // Адрес, на котором работает Angular
+            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod());
-});*/
+});
 
 var app = builder.Build();
 
@@ -42,10 +42,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(options => 
-options.WithOrigins("http://localhost:4200")
+app.UseCors("AllowAll");
+/*app.UseCors(options => 
+options.WithOrigins(["http://localhost:4200", "http://localhost:80"])
 .AllowAnyMethod()
-.AllowAnyHeader());
+.AllowAnyHeader());*/
 
 app.UseHttpsRedirection();
 

@@ -3,7 +3,6 @@ import { CommentsService } from '../../shared/comments.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment } from '../../shared/comment.model';
 import { ToastrService } from 'ngx-toastr';
-import { CommentComponent } from '../comment/comment.component';
 
 @Component({
   selector: 'app-comment-form',
@@ -30,7 +29,7 @@ export class CommentFormComponent implements OnInit {
   @ViewChild('commentTextArea') commentTextArea!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('commentModal', { static: true }) commentModal!: ElementRef;
   @ViewChild('confirmAddCommentModal', { static: true }) confirmAddCommentModal!: ElementRef;
-  //@ViewChild(CommentComponent) previewCommentItem!: CommentComponent;
+
   private modalInstance: any;
   private modalConfirmInstance: any;
 
@@ -44,6 +43,7 @@ export class CommentFormComponent implements OnInit {
 
   openModal(parentId:number = 0) {
     if (this.modalInstance) {
+      this.resetForm();
       this.modalInstance.show();
       if(parentId > 0)
       {
@@ -115,7 +115,7 @@ export class CommentFormComponent implements OnInit {
           next: res => {
             this.services.parseData(res);
             this.toastr.success('Комментарий успешно добавлен', 'Добавление комментария');
-            this.resetForm();
+            //this.resetForm();
             this.modalConfirmInstance.hide();
           },
           error: err => {
