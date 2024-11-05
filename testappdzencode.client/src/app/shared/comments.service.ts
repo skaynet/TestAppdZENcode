@@ -37,8 +37,7 @@ export class CommentsService {
         this.parseData(res);
       },
       error: err => {console.log(err)}
-    }
-    );
+    });
   }
 
   parseData(res:ResponseStructure) {
@@ -75,6 +74,12 @@ export class CommentsService {
     });*/
 
     return this.http.post<ResponseStructure>(this.getFullUrlWithParameters(), formData);
+  }
+
+  loadFileTxt(nameFile: string): Observable<string> {
+    const encodedFileName = encodeURIComponent(nameFile);
+    const fullUrl = `${this.apiUrl}/uploads?fileName=${encodedFileName}`;
+    return this.http.get(fullUrl, { responseType: 'text' });
   }
 
   getFullUrlWithParameters():string {

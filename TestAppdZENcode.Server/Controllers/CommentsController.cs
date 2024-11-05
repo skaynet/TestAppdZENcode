@@ -35,10 +35,29 @@ namespace TestAppdZENcode.Server.Controllers
             });
         }
 
+        [HttpGet("uploads")]
+        public IActionResult GetFile([FromQuery] string fileName)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", fileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, "text/plain", fileName);
+            }
+            return NotFound();
+        }
+
         [HttpPost]
         public async Task<ActionResult<IEnumerable<Comment>>> PostComment([FromForm] Comment comment, IFormFile? file, 
             [FromQuery] int page = 1, [FromQuery] string sortBy = "created_at", [FromQuery] string sortOrder = "DESC")
         {
+            // Проверка валидности модели
+            if (!ModelState.IsValid)
+            {
+                // Возвращаем ошибки валидации, если модель невалидна
+                return BadRequest(ModelState);
+            }
+
             if (file == null || file.Length == 0)
             {
                 file = null;

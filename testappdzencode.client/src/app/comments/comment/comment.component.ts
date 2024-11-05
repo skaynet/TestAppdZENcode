@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { Comment } from '../../shared/comment.model';
 import { environment } from '../../../environments/environment';
+import { CommentsService } from '../../shared/comments.service';
 
 @Component({
   selector: 'app-comment',
@@ -13,11 +14,21 @@ export class CommentComponent implements OnInit, OnDestroy{
   @Input() isPreview: boolean = false;
   @Output() replyEvent = new EventEmitter<number>();
 
+  @ViewChild('commentViewTxtFileModal', { static: true }) commentModal!: ElementRef;
+
   fileUrl?: string; // URL для предварительного просмотра изображения
+  fileContent: string | null = null;
   private objectUrl?: string; // Для отслеживания локального URL
+  private modalInstance: any;
+
+  constructor(public service: CommentsService) { }
 
   ngOnInit(): void {
     this.updateFileUrl();
+  }
+
+  ngAfterViewInit() {
+    this.modalInstance = new (window as any).bootstrap.Modal(this.commentModal.nativeElement);
   }
 
   ngOnDestroy(): void {
@@ -36,6 +47,39 @@ export class CommentComponent implements OnInit, OnDestroy{
     } else */
     if (typeof this.comment.filePath === 'string') {
       this.fileUrl = environment.fileBaseUrl + this.comment.filePath;
+    }
+  }
+
+  getUploadFileName(): string {
+    if (this.comment.filePath && (this.comment.filePath as unknown as File)) {
+      const file = (this.comment.filePath as unknown as File);
+      return file.name;
+    }
+    else {
+      return '';
+    }
+  }
+
+  loadFileTxt(): void {
+    if (typeof this.comment.filePath === 'string') {
+      this.service.loadFileTxt(this.comment.filePath).subscribe({
+        next: res => {
+          this.fileContent = res;
+          this.modalInstance.show();
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
+  openModalViewTxtFile(event: MouseEvent): void {
+    event.preventDefault(); // предотвращаем открытие ссылки
+    if (this.fileContent) {
+      this.modalInstance.show();
+    } else {
+      this.loadFileTxt();
     }
   }
 

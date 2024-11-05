@@ -1,39 +1,64 @@
-<div class="comment border rounded p-3 mb-3">
-    <div class="comment-header d-flex justify-content-between align-items-center">
-      <div>
-        <strong>{{ comment.userName }}</strong> 
-        <small class="text-muted">({{ comment.email }})</small>
-        <small *ngIf="comment.homePage" class="text-muted">
-          - <a [href]="comment.homePage" target="_blank">{{ comment.homePage }}</a>
-        </small>
+  <!-- Modal -->
+<div #commentViewTxtFileModal class="modal fade" id="exampleModalViewTxtFile" tabindex="-1" aria-labelledby="exampleModalLabelViewTxtFile" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabelViewTxtFile">Просмотр текстового файла</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <span *ngIf="comment.createdAt" class="text-muted">{{ comment.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
-    </div>
-  
-    <div class="comment-content mt-2" [innerHTML]="comment.content"></div>
-
-    <!-- Добавленные файлы -->
-    <div *ngIf="fileUrl" class="file-preview mt-3">
-        <a *ngIf="isImage(fileUrl)" [href]="fileUrl" [attr.data-lightbox]="comment.filePath">
-            <img [src]="fileUrl" style="width: 100px; height: auto;" alt="{{comment.filePath}}" class="example-image">
-        </a>
-        <a *ngIf="isTextFile(fileUrl)" [href]="fileUrl" target="_blank">
-            <span class="d-block">
-                <i class="bi bi-file-earmark-text"></i> {{comment.filePath}}
-            </span>
-        </a>
+      <div class="modal-body">
+        <pre>{{fileContent}}</pre>
       </div>
-
-    <!-- Reply button -->
-    <div *ngIf="!isPreview" class="text-end mt-3">
-      <a href="javascript:void(0)" (click)="replyToComment()" class="text-decoration-none">
-        <i class="bi bi-reply"></i> Ответить
-      </a>
-    </div>
-  
-    <!-- Ответы на комментарии -->
-    <div *ngIf="!isPreview && comment.children && comment.children.length > 0" class="replies mt-3">
-      <app-comment *ngFor="let reply of comment.children" [comment]="reply" (replyEvent)="replyEvent.emit($event)"></app-comment>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
     </div>
   </div>
-  
+</div>
+
+<div class="comment border rounded p-3 mb-3">
+  <div class="comment-header d-flex justify-content-between align-items-center">
+    <div>
+      <strong>{{ comment.userName }}</strong>
+      <small class="text-muted">({{ comment.email }})</small>
+      <small *ngIf="comment.homePage" class="text-muted">
+        - <a [href]="comment.homePage" target="_blank">{{ comment.homePage }}</a>
+      </small>
+    </div>
+    <span *ngIf="comment.createdAt" class="text-muted">{{ comment.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+  </div>
+
+  <div class="comment-content mt-2" [innerHTML]="comment.content"></div>
+
+  <div *ngIf="isPreview && comment.filePath" class="file-preview mt-3">
+    <span class="d-block">
+      <i class="bi" [ngClass]="{
+         'bi-file-image': isImage(getUploadFileName()),
+         'bi-file-earmark-text': isTextFile(getUploadFileName()) }"></i> {{getUploadFileName()}}
+    </span>
+  </div>
+
+  <!-- Добавленные файлы -->
+  <div *ngIf="fileUrl" class="file-preview mt-3">
+    <a *ngIf="isImage(fileUrl)" [href]="fileUrl" [attr.data-lightbox]="comment.filePath">
+      <img [src]="fileUrl" style="width: 100px; height: auto;" alt="{{comment.filePath}}" class="example-image">
+    </a>
+    <a *ngIf="isTextFile(fileUrl)" [href]="fileUrl" (click)="openModalViewTxtFile($event)" target="_blank">
+      <span class="d-block">
+        <i class="bi bi-file-earmark-text"></i> {{comment.filePath}}
+      </span>
+    </a>
+  </div>
+
+  <!-- Reply button -->
+  <div *ngIf="!isPreview" class="text-end mt-3">
+    <a href="javascript:void(0)" (click)="replyToComment()" class="text-decoration-none">
+      <i class="bi bi-reply"></i> Ответить
+    </a>
+  </div>
+
+  <!-- Ответы на комментарии -->
+  <div *ngIf="!isPreview && comment.children && comment.children.length > 0" class="replies mt-3">
+    <app-comment *ngFor="let reply of comment.children" [comment]="reply" (replyEvent)="replyEvent.emit($event)"></app-comment>
+  </div>
+</div>

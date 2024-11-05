@@ -7,7 +7,7 @@
       <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'userName' }" (click)="setSortOption('userName')">Имя пользователя</button></li>
       <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'email' }" (click)="setSortOption('email')">E-Mail</button></li>
       <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'created_at' && service.sortOrder === 'DESC' }" (click)="setSortOption('created_at', 'DESC')">Сначала новые</button></li>
-      <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'created_at'  && service.sortOrder === 'ASC' }" (click)="setSortOption('created_at')">Сначала старые</button></li>
+      <li><button class="dropdown-item" [ngClass]="{ 'active': service.sortBy === 'created_at' && service.sortOrder === 'ASC' }" (click)="setSortOption('created_at')">Сначала старые</button></li>
     </ul>
   </div>
 

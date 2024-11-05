@@ -18,10 +18,12 @@ public partial class Comment
     public int? ParentId { get; set; }
 
     [Column("user_name")]
+    [Required]
     [StringLength(255)]
     public string UserName { get; set; } = null!;
 
     [Column("email")]
+    [Required]
     [StringLength(255)]
     [EmailAddress]
     public string Email { get; set; } = null!;
@@ -32,6 +34,7 @@ public partial class Comment
     public string? HomePage { get; set; }
 
     [Column("content")]
+    [Required]
     public string Content { get; set; } = null!;
 
     [Column("file_path")]

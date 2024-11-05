@@ -32,7 +32,20 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+/*app.UseCors(options => 
+options.WithOrigins(["http://localhost:4200", "http://localhost:80"])
+.AllowAnyMethod()
+.AllowAnyHeader());*/
+
 app.UseDefaultFiles();
+/*app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+    }
+});*/
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
@@ -41,12 +54,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("AllowAll");
-/*app.UseCors(options => 
-options.WithOrigins(["http://localhost:4200", "http://localhost:80"])
-.AllowAnyMethod()
-.AllowAnyHeader());*/
 
 app.UseHttpsRedirection();
 
